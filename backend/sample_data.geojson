@@ -1,0 +1,59 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Sundargarh FRA Land 1",
+        "district": "Sundargarh",
+        "holderName": "Smt. Radha Murmu",
+        "area": "2.5 acres",
+        "asset_percentages": {
+          "forest": 60,
+          "farmland": 30,
+          "homestead": 10
+        },
+        "dss_recommendation": "High Farmland Percentage Detected. Recommend PM-KISAN verification for this holder."
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [76.5, 22.5],
+            [77.0, 22.5],
+            [77.0, 22.0],
+            [76.5, 22.0],
+            [76.5, 22.5]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Khordha Sample Area",
+        "district": "Khordha",
+        "holderName": "Shri Arjun Naik",
+        "area": "1.8 acres",
+        "asset_percentages": {
+          "forest": 20,
+          "farmland": 70,
+          "homestead": 10
+        },
+        "dss_recommendation": "Land suitable for crop diversification schemes."
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            [85.0, 20.5],
+            [85.5, 20.5],
+            [85.5, 20.0],
+            [85.0, 20.0],
+            [85.0, 20.5]
+          ]
+        ],
+        "type": "Polygon"
+      }
+    }
+  ]
+}

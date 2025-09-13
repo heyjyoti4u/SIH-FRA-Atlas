@@ -1,0 +1,20 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "DISTRICT": "Sundargarh", "STATE": "Odisha" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ 83.5, 22.5 ], [ 85.5, 22.5 ], [ 85.5, 21.5 ], [ 83.5, 21.5 ], [ 83.5, 22.5 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "DISTRICT": "Khordha", "STATE": "Odisha" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ 85.0, 20.5 ], [ 86.0, 20.5 ], [ 86.0, 19.5 ], [ 85.0, 19.5 ], [ 85.0, 20.5 ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "DISTRICT": "FRA_DEMO_AREA", "STATE": "Odisha", "holderName": "Smt. Radha Murmu & Others", "totalAreaAcres": 5.2, "cropableLandAcres": 3.1, "allottedCommunity": "Munda Tribe", "asset_percentages": { "deepForest": 40, "cropableLand": 50, "waterBodies": 5, "homestead": 5 }, "dss_recommendation": "High cropable land. Suitable for Odisha Millet Mission." },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ 84.0, 22.2 ], [ 84.1, 22.2 ], [ 84.1, 22.1 ], [ 84.0, 22.1 ], [ 84.0, 22.2 ] ] ] }
+    }
+  ]
+}

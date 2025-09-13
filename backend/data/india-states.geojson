@@ -1,0 +1,15 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "STATE": "Andaman & Nicobar" },
+      "geometry": { "type": "MultiPolygon", "coordinates": [ [ [ [ 92.81, 12.83 ], [ 92.82, 12.83 ], [ 92.82, 12.84 ], [ 92.81, 12.84 ], [ 92.81, 12.83 ] ] ] ] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "STATE": "Odisha" },
+      "geometry": { "type": "Polygon", "coordinates": [ [ [ 84.8, 22.5 ], [ 84.8, 19.5 ], [ 81.5, 17.8 ], [ 82.5, 22.5 ], [ 84.8, 22.5 ] ] ] }
+    }
+  ]
+}

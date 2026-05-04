@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
+import os  # Ye import add karna hai
 
 app = Flask(__name__)
 CORS(app)
@@ -22,4 +23,9 @@ def get_districts(state_name):
     return jsonify({"error": "State data not found"}), 404
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    # Cloud environment se dynamically port uthane ke liye:
+    port = int(os.environ.get("PORT", 5000))
+    
+    # host="0.0.0.0" lagana zaroori hai taki server external requests accept kare
+    # debug=False production ke liye mandatory hai
+    app.run(host="0.0.0.0", port=port, debug=False)

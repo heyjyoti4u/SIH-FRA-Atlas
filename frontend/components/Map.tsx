@@ -6,14 +6,7 @@ import "leaflet/dist/leaflet.css"
 import L, { Layer } from "leaflet"
 import { GeoJsonObject } from "geojson"
 
-// Leaflet Icon Fix
-delete (L.Icon.Default.prototype as any)._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-})
-
+// Map Controller
 const MapController = ({ data }: { data: GeoJsonObject | null }) => {
   const map = useMap();
   useEffect(() => {
@@ -28,10 +21,19 @@ const MapController = ({ data }: { data: GeoJsonObject | null }) => {
 };
 
 export default function Map({ mapViewData }: { mapViewData: GeoJsonObject | null }) {
+  useEffect(() => {
+    // Leaflet Icon Fix - Isko useEffect mein daalna zaroori hai taaki ye server par run na ho
+    delete (L.Icon.Default.prototype as any)._getIconUrl;
+    L.Icon.Default.mergeOptions({
+      iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
+      iconUrl: require("leaflet/dist/images/marker-icon.png"),
+      shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
+    });
+  }, []);
+
   const onEachFeature = (feature: GeoJSON.Feature, layer: Layer) => {
     if (feature.properties?.holderName) {
-      // Your detailed popup HTML here
-      const popupContent = `...`; 
+      const popupContent = `...`; // Apni popup HTML yahan daalna
       layer.bindPopup(popupContent);
     }
   };

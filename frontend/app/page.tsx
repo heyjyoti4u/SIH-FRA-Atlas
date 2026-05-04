@@ -1,50 +1,31 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
+import dynamic from "next/dynamic" // Ye import zaroori hai
 import { AppHeader } from "@/components/app-header"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet"
-import "leaflet/dist/leaflet.css"
-import L, { Layer } from "leaflet"
 import { GeoJsonObject } from "geojson"
 
-// Leaflet Icon Fix
-delete (L.Icon.Default.prototype as any)._getIconUrl
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
-})
+// Dynamic import with SSR disabled. Ye window is not defined error ko fix karega.
+const MapComponent = dynamic(() => import("@/components/Map"), { 
+  ssr: false,
+  loading: () => <div className="flex h-full items-center justify-center bg-gray-100">Loading Map...</div>
+});
 
-// Map Controller to programmatically zoom
-const MapController = ({ data }: { data: GeoJsonObject | null }) => {
-  const map = useMap();
-  useEffect(() => {
-    if (data && (data as any).features?.length > 0) {
-      const bounds = L.geoJSON(data as any).getBounds();
-      if (bounds.isValid()) {
-        map.flyToBounds(bounds, { padding: [50, 50], duration: 1.5 });
-      }
-    }
-  }, [data, map]);
-  return null;
-};
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:5000";
 
 export default function Page() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  
-  // Data layers and filter states
   const [availableStates, setAvailableStates] = useState<string[]>([]);
   const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
   const [selectedState, setSelectedState] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [mapViewData, setMapViewData] = useState<GeoJsonObject | null>(null);
 
-  // Load states on initial render
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/api/states")
+    fetch(`${API_BASE_URL}/api/states`)
       .then(res => res.json())
       .then(data => {
         setAvailableStates(data.features.map((f: any) => f.properties.STATE));
@@ -52,13 +33,12 @@ export default function Page() {
       }).catch(err => console.error("Failed to fetch states:", err));
   }, []);
 
-  // Handle state selection
   const handleStateChange = (value: string) => {
     setSelectedState(value);
-    setSelectedDistrict(""); // Reset district
+    setSelectedDistrict(""); 
     setAvailableDistricts([]);
     if (value) {
-      fetch(`http://127.0.0.1:5000/api/districts/${value}`)
+      fetch(`${API_BASE_URL}/api/districts/${value}`)
         .then(res => res.json())
         .then(data => {
           setAvailableDistricts(data.features.filter((f: any) => f.properties.DISTRICT !== 'FRA_DEMO_AREA').map((f: any) => f.properties.DISTRICT));
@@ -66,25 +46,17 @@ export default function Page() {
     }
   };
 
-  // Handle "Apply Filters" click
   const handleApplyFilters = () => {
     if (selectedDistrict) {
-      fetch(`http://127.0.0.1:5000/api/fra_parcels/${selectedDistrict}`)
+      fetch(`${API_BASE_URL}/api/fra_parcels/${selectedDistrict}`)
         .then(res => res.ok ? res.json() : null)
-        .then(data => setMapViewData(data));
+        .then(data => setMapViewData(data))
+        .catch(err => console.error("Failed to fetch parcels:", err));
     } else if (selectedState) {
-      fetch(`http://127.0.0.1:5000/api/districts/${selectedState}`)
+      fetch(`${API_BASE_URL}/api/districts/${selectedState}`)
         .then(res => res.json())
-        .then(data => setMapViewData({ type: "FeatureCollection", features: data.features.filter((f: any) => f.properties.DISTRICT !== 'FRA_DEMO_AREA')}));
-    }
-  };
-  
-  // Custom popup
-  const onEachFeature = (feature: GeoJSON.Feature, layer: Layer) => {
-    if (feature.properties?.holderName) {
-      const { holderName, totalAreaAcres, asset_percentages, dss_recommendation } = feature.properties;
-      const popupContent = `...`; // Your detailed popup HTML here
-      layer.bindPopup(popupContent);
+        .then(data => setMapViewData({ type: "FeatureCollection", features: data.features.filter((f: any) => f.properties.DISTRICT !== 'FRA_DEMO_AREA')}))
+        .catch(err => console.error("Failed to fetch districts:", err));
     }
   };
 
@@ -115,11 +87,8 @@ export default function Page() {
         </aside>
         <section className="flex flex-1 flex-col">
           <div className="mx-4 mb-4 mt-2 flex-1 rounded-lg border">
-            <MapContainer center={[20.5937, 78.9629]} zoom={5} scrollWheelZoom={true} className="h-full w-full rounded-lg bg-gray-100">
-              <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" attribution='&copy; CARTO' />
-              {mapViewData && <GeoJSON data={mapViewData} onEachFeature={onEachFeature} />}
-              <MapController data={mapViewData} />
-            </MapContainer>
+            {/* Yahan direct component call karenge */}
+            <MapComponent mapViewData={mapViewData} />
           </div>
         </section>
       </main>

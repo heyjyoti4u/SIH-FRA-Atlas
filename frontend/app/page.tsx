@@ -1,14 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import dynamic from "next/dynamic" // Ye import zaroori hai
+import dynamic from "next/dynamic"
 import { AppHeader } from "@/components/app-header"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { GeoJsonObject } from "geojson"
 
-// Dynamic import with SSR disabled. Ye window is not defined error ko fix karega.
+// Ye line error fix karegi. Ye Next.js ko bolti hai ki map ko server par render nahi karna hai.
 const MapComponent = dynamic(() => import("@/components/Map"), { 
   ssr: false,
   loading: () => <div className="flex h-full items-center justify-center bg-gray-100">Loading Map...</div>
@@ -86,8 +86,7 @@ export default function Page() {
           </div>
         </aside>
         <section className="flex flex-1 flex-col">
-          <div className="mx-4 mb-4 mt-2 flex-1 rounded-lg border">
-            {/* Yahan direct component call karenge */}
+          <div className="mx-4 mb-4 mt-2 flex-1 rounded-lg border overflow-hidden">
             <MapComponent mapViewData={mapViewData} />
           </div>
         </section>

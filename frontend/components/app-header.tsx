@@ -27,7 +27,8 @@ export function AppHeader({ onToggleSidebar }: AppHeaderProps) {
 
       <div className="flex items-center gap-3">
         <Avatar className="h-7 w-7" aria-label="User profile">
-          <AvatarFallback title="User Profile">UP</AvatarFallback>
+          <AvatarFallback title="User Profile">IND</AvatarFallback>
+          <AvtarFallback image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhplEXPpWAYGxIkic17JzVWJVdgDyW16y8kw&s"></AvtarFallback>
         </Avatar>
       </div>
     </header>

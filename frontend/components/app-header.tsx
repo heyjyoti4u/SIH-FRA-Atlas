@@ -1,6 +1,7 @@
 "use client"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+// Yahan se AvatarImage hata diya hai taaki undefined error na aaye
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 
 type AppHeaderProps = {
   onToggleSidebar?: () => void
@@ -26,10 +27,12 @@ export function AppHeader({ onToggleSidebar }: AppHeaderProps) {
       </div>
 
       <div className="flex items-center gap-3">
-        <Avatar className="h-7 w-7" aria-label="User profile">
-          <AvatarImage 
+        <Avatar className="h-7 w-7 overflow-hidden rounded-full" aria-label="User profile">
+          {/* Custom AvatarImage ki jagah standard HTML img tag use kiya hai */}
+          <img 
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhplEXPpWAYGxIkic17JzVWJVdgDyW16y8kw&s" 
-            alt="User Profile" 
+            alt="User Profile"
+            className="aspect-square h-full w-full object-cover"
           />
           <AvatarFallback title="User Profile">IND</AvatarFallback>
         </Avatar>

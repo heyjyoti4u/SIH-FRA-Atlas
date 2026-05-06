@@ -1,6 +1,6 @@
 "use client"
 
-import { Avatar, AvatarFallback, AvtarFallback2 } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 type AppHeaderProps = {
   onToggleSidebar?: () => void
@@ -10,7 +10,7 @@ export function AppHeader({ onToggleSidebar }: AppHeaderProps) {
   return (
     <header className="flex h-12 items-center justify-between border-b border-border bg-background px-4">
       <div className="flex items-center gap-2">
-        {onToggleSidebar ? (
+        {onToggleSidebar && (
           <button
             type="button"
             onClick={onToggleSidebar}
@@ -19,7 +19,7 @@ export function AppHeader({ onToggleSidebar }: AppHeaderProps) {
           >
             {"≡"}
           </button>
-        ) : null}
+        )}
         <h1 className="text-sm font-medium leading-none text-pretty">
           Forest Rights Act (FRA) Atlas & Decision Support System
         </h1>
@@ -27,8 +27,11 @@ export function AppHeader({ onToggleSidebar }: AppHeaderProps) {
 
       <div className="flex items-center gap-3">
         <Avatar className="h-7 w-7" aria-label="User profile">
+          <AvatarImage 
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhplEXPpWAYGxIkic17JzVWJVdgDyW16y8kw&s" 
+            alt="User Profile" 
+          />
           <AvatarFallback title="User Profile">IND</AvatarFallback>
-          <AvtarFallback2 image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhplEXPpWAYGxIkic17JzVWJVdgDyW16y8kw&s"></AvtarFallback2>
         </Avatar>
       </div>
     </header>
